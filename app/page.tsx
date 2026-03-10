@@ -1,4 +1,5 @@
 import { todoData } from "@/data/todos";
+import TodoCheckbox from "@/components/TodoCheckbox";
 
 export default function Home() {
   return (
@@ -21,26 +22,10 @@ export default function Home() {
                 {list.todos.map((todo) => (
                   <li
                     key={todo.id}
-                    className={`flex items-center gap-3 rounded-md px-3 py-2 ${
-                      todo.done
-                        ? "bg-zinc-50 dark:bg-zinc-800/50"
-                        : "bg-white dark:bg-zinc-900"
-                    }`}
+                    className="flex items-center gap-3 rounded-md px-3 py-2"
                   >
-                    <span
-                      className={`h-4 w-4 rounded-full border-2 flex-shrink-0 ${
-                        todo.done
-                          ? "border-zinc-400 bg-zinc-400 dark:border-zinc-500 dark:bg-zinc-500"
-                          : "border-zinc-300 dark:border-zinc-600"
-                      }`}
-                    />
-                    <span
-                      className={
-                        todo.done
-                          ? "text-zinc-400 line-through dark:text-zinc-500"
-                          : "text-zinc-700 dark:text-zinc-300"
-                      }
-                    >
+                    <TodoCheckbox done={todo.done} />
+                    <span className="peer-checked:line-through peer-checked:opacity-50 text-zinc-700 dark:text-zinc-300">
                       {todo.title}
                     </span>
                   </li>
