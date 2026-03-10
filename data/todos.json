@@ -1,0 +1,57 @@
+{
+  "lists": [
+    {
+      "id": "1",
+      "name": "Courses",
+      "todos": [
+        {
+          "id": "1",
+          "title": "Acheter du lait",
+          "done": false
+        },
+        {
+          "id": "2",
+          "title": "Acheter du pain",
+          "done": false
+        },
+        {
+          "id": "3",
+          "title": "Acheter des oeufs",
+          "done": true
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Travail",
+      "todos": [
+        {
+          "id": "4",
+          "title": "Préparer la réunion",
+          "done": false
+        },
+        {
+          "id": "5",
+          "title": "Envoyer le compte-rendu",
+          "done": true
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Personnel",
+      "todos": [
+        {
+          "id": "6",
+          "title": "Appeler le médecin",
+          "done": false
+        },
+        {
+          "id": "7",
+          "title": "Renouveler l'abonnement",
+          "done": false
+        }
+      ]
+    }
+  ]
+}
