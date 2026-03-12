@@ -1,11 +1,12 @@
-"use client"
+"use client";
+import { SetStateAction } from "react";
 
-type Props = {
-  checked: boolean
-  toggle: () => void
+interface CheckboxProps {
+  checked: boolean;
+  toggle: () => void;
 }
 
-export default function Checkbox({ checked, toggle }: Props) {
+export default function Checkbox({ checked, toggle }: CheckboxProps) {
   return (
     <input
       type="checkbox"
@@ -13,5 +14,5 @@ export default function Checkbox({ checked, toggle }: Props) {
       onChange={toggle}
       className="peer w-4 h-4 cursor-pointer"
     />
-  )
+  );
 }

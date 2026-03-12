@@ -1,10 +1,22 @@
 import todoData from "@/data/todos.json";
 import Todo from "./_components/Todo";
+import { getTodos } from "@/lib/task-source";
 
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+export interface TodoProps {
+  lists: [
+    {
+      id: string;
+      name: string;
+      todos: [{ id: string; title: string; done: boolean }];
+    },
+  ];
+}
+
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export default async function Home() {
-  await delay(1000)
+  await delay(1000);
+  const elem: TodoProps = await getTodos();
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950">
@@ -14,7 +26,7 @@ export default async function Home() {
         </h1>
 
         <div className="space-y-6">
-          {todoData.lists.map((list) => (
+          {elem.lists.map((list) => (
             <div
               key={list.id}
               className="rounded-lg border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900"
