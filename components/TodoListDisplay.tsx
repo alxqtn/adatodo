@@ -1,4 +1,5 @@
 import TodoCheckbox from '@/components/TodoCheckbox'
+import AddTodoInput from '@/components/AddTodoInput'
 import { TodoList } from '@/lib/todos-store'
 
 export default function TodoListDisplay({ list }: { list: TodoList }) {
@@ -17,6 +18,7 @@ export default function TodoListDisplay({ list }: { list: TodoList }) {
           </li>
         ))}
       </ul>
+      <AddTodoInput listId={list.id} />
     </div>
   )
 }
