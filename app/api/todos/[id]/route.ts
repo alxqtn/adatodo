@@ -21,3 +21,20 @@ export async function PATCH(
 
   return NextResponse.json({ error: 'Not found' }, { status: 404 })
 }
+
+export async function DELETE(
+  _request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params
+  const data = await readTodos()
+  for (const list of data.lists) {
+    const index = list.todos.findIndex((t) => t.id === id)
+    if (index !== -1) {
+      list.todos.splice(index, 1)
+      await writeTodos(data)
+      return NextResponse.json({ ok: true })
+    }
+  }
+  return NextResponse.json({ error: 'Not found' }, { status: 404 })
+}
