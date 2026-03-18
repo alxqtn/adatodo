@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-export default function TodoCheckbox({ id, done }: { id: string; done: boolean }) {
+export default function TodoCheckbox({ id, done }: { id: number; done: boolean }) {
   const [checked, setChecked] = useState(done)
   const router = useRouter()
 

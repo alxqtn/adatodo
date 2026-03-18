@@ -1,18 +1,16 @@
 import { notFound } from 'next/navigation'
-import { readTodos } from '@/lib/todos-store'
+import { db } from '@/db/client'
 import TodoListDisplay from '@/app/_components/TodoListDisplay'
-
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 export const dynamic = 'force-dynamic'
 
 export default async function ListPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
 
-  await delay(2000)
-  const { lists } = await readTodos()
-  const list = lists.find((l) => l.id === id)
-
+  const list = await db.query.listsTable.findFirst({
+    where: { id: Number(id) },
+    with: { todos: { orderBy: { id: 'asc' } } },
+  })
   if (!list) notFound()
 
   return (

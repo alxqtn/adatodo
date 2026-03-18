@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-export default function AddTodoInput({ listId }: { listId: string }) {
+export default function AddTodoInput({ listId }: { listId: number }) {
   const [inputValue, setInputValue] = useState('')
   const [isSaving, setIsSaving] = useState(false)
   const router = useRouter()

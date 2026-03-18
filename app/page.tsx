@@ -1,11 +1,15 @@
 import Link from 'next/link'
-import { readTodos } from '@/lib/todos-store'
+import { db } from '@/db/client'
 import TodoListDisplay from '@/app/_components/TodoListDisplay'
 
 export const dynamic = 'force-dynamic'
 
 export default async function Home() {
-  const { lists } = await readTodos()
+  const lists = await db.query.listsTable.findMany({
+    with: {
+      todos: { orderBy: { id: 'asc' } },
+    },
+  })
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950">

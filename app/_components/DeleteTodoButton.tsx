@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 
-export default function DeleteTodoButton({ id }: { id: string }) {
+export default function DeleteTodoButton({ id }: { id: number }) {
   const router = useRouter()
 
   async function handleDelete() {

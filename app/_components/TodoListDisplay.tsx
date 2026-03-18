@@ -1,7 +1,9 @@
 import TodoCheckbox from './TodoCheckbox'
 import AddTodoInput from './AddTodoInput'
 import DeleteTodoButton from './DeleteTodoButton'
-import { TodoList } from '@/lib/todos-store'
+import { listsTable, todosTable } from '@/db/schema'
+
+type TodoList = typeof listsTable.$inferSelect & { todos: typeof todosTable.$inferSelect[] }
 
 export default function TodoListDisplay({ list }: { list: TodoList }) {
   return (
