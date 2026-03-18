@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import { readTodos } from '@/lib/todos-store'
-import TodoListDisplay from '@/components/TodoListDisplay'
+import TodoListDisplay from '@/app/_components/TodoListDisplay'
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 

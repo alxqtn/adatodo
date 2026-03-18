@@ -1,6 +1,6 @@
-import TodoCheckbox from '@/components/TodoCheckbox'
-import AddTodoInput from '@/components/AddTodoInput'
-import DeleteTodoButton from '@/components/DeleteTodoButton'
+import TodoCheckbox from './TodoCheckbox'
+import AddTodoInput from './AddTodoInput'
+import DeleteTodoButton from './DeleteTodoButton'
 import { TodoList } from '@/lib/todos-store'
 
 export default function TodoListDisplay({ list }: { list: TodoList }) {

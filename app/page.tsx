@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { readTodos } from '@/lib/todos-store'
-import TodoListDisplay from '@/components/TodoListDisplay'
+import TodoListDisplay from '@/app/_components/TodoListDisplay'
 
 export const dynamic = 'force-dynamic'
 
