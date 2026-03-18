@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
-import { readTodos, writeTodos } from '@/lib/todos-store'
-import { randomUUID } from 'crypto'
+import { eq } from 'drizzle-orm'
+import { db } from '@/db/client'
+import { listsTable, todosTable } from '@/db/schema'
 
 export async function POST(
   request: Request,
@@ -16,17 +17,19 @@ export async function POST(
     )
   }
 
-  const data = await readTodos()
-  const list = data.lists.find((l) => l.id === listId)
+  const [list] = await db
+    .select({ id: listsTable.id })
+    .from(listsTable)
+    .where(eq(listsTable.id, parseInt(listId)))
 
   if (!list) {
     return NextResponse.json({ error: 'List not found' }, { status: 404 })
   }
 
-  const newTodo = { id: randomUUID(), title: title.trim(), done: false }
-  list.todos.push(newTodo)
-
-  await writeTodos(data)
+  const [newTodo] = await db
+    .insert(todosTable)
+    .values({ title: title.trim(), done: false, listId: list.id })
+    .returning()
 
   return NextResponse.json(newTodo, { status: 201 })
 }
