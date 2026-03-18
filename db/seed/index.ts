@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import { drizzle } from 'drizzle-orm/neon-http';
-import { listsTable, todosTable } from './schema';
-import seedData from '../data/todos.json';
+import { listsTable, todosTable } from '../schema';
+import seedData from './todos.json';
 
 const db = drizzle(process.env.DATABASE_URL!);
 
