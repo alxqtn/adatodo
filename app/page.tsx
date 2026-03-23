@@ -1,13 +1,15 @@
 import Link from 'next/link'
 import { db } from '@/db/client'
 import TodoListDisplay from '@/app/_components/TodoListDisplay'
+import { todosTable } from '@/db/schema'
+import { asc } from 'drizzle-orm'
 
 export const dynamic = 'force-dynamic'
 
 export default async function Home() {
   const lists = await db.query.listsTable.findMany({
     with: {
-      todos: { orderBy: { id: 'asc' } },
+      todos: { orderBy: [asc(todosTable.id)] },
     },
   })
 

@@ -1,6 +1,9 @@
 import { notFound } from 'next/navigation'
+import { asc, eq } from 'drizzle-orm';
+
 import { db } from '@/db/client'
 import TodoListDisplay from '@/app/_components/TodoListDisplay'
+import { listsTable, todosTable } from '@/db/schema';
 
 export const dynamic = 'force-dynamic'
 
@@ -8,8 +11,8 @@ export default async function ListPage({ params }: { params: Promise<{ id: strin
   const { id } = await params
 
   const list = await db.query.listsTable.findFirst({
-    where: { id: Number(id) },
-    with: { todos: { orderBy: { id: 'asc' } } },
+    where: eq(listsTable.id, Number(id)),
+    with: { todos: { orderBy: [asc(todosTable.id)] } },
   })
   if (!list) notFound()
 
