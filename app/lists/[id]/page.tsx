@@ -8,8 +8,8 @@ export default async function ListPage({ params }: { params: Promise<{ id: strin
   const { id } = await params
 
   const list = await db.query.listsTable.findFirst({
-    where: { id: Number(id) },
-    with: { todos: { orderBy: { id: 'asc' } } },
+    where: (list, { eq }) => eq(list.id, Number(id)),
+    with: { todos: { orderBy: (todos, { asc }) => [asc(todos.id)] } },
   })
   if (!list) notFound()
 

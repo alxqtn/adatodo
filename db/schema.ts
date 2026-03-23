@@ -1,5 +1,5 @@
 import { integer, pgTable, varchar, boolean } from "drizzle-orm/pg-core";
-import { defineRelations } from "drizzle-orm";
+import { relations } from "drizzle-orm";
 
 export const listsTable = pgTable("lists", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -13,14 +13,13 @@ export const todosTable = pgTable("todos", {
   listId: integer('list_id').references(() => listsTable.id)
 });
 
-export const relations = defineRelations({ listsTable, todosTable }, (r) => ({
-  listsTable: {
-    todos: r.many.todosTable(),
-  },
-  todosTable: {
-    list: r.one.listsTable({
-      from: r.todosTable.listId,
-      to: r.listsTable.id,
-    }),
-  },
+export const listsRelations = relations(listsTable, ({ many }) => ({
+  todos: many(todosTable),
+}));
+
+export const todosRelations = relations(todosTable, ({ one }) => ({
+  list: one(listsTable, {
+    fields: [todosTable.listId],
+    references: [listsTable.id],
+  }),
 }));
