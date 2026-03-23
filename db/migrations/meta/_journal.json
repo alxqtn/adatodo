@@ -9,5 +9,12 @@
       "tag": "0000_outstanding_shard",
       "breakpoints": true
     },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1774284173848,
+      "tag": "0001_lame_stature",
+      "breakpoints": true
+    }
   ]
 }
