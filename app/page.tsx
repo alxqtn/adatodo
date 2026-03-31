@@ -24,7 +24,7 @@ export default async function Home() {
           {lists.map((list) => (
             <div key={list.id}>
               <Link href={`/lists/${list.id}`}>
-                <h2 className="mb-4 text-lg font-semibold text-zinc-900 dark:text-zinc-100 hover:underline cursor-pointer">
+                <h2 data-testid="list-heading" className="mb-4 text-lg font-semibold text-zinc-900 dark:text-zinc-100 hover:underline cursor-pointer">
                   {list.name}
                 </h2>
               </Link>

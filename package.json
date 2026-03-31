@@ -11,7 +11,8 @@
     "db:migrate": "drizzle-kit migrate",
     "db:seed": "tsx db/seed.ts",
     "test:unit": "vitest run .unit.tsx .unit.ts",
-    "test:integration": "DATABASE_URL='postgresql://test:test@localhost:5433/test' drizzle-kit migrate && vitest run .integration.ts"
+    "test:integration": "DATABASE_URL='postgresql://test:test@localhost:5433/test' drizzle-kit migrate && vitest run .integration.ts",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
@@ -24,6 +25,7 @@
     "react-dom": "19.2.3"
   },
   "devDependencies": {
+    "@playwright/test": "^1.58.2",
     "@tailwindcss/postcss": "^4",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",

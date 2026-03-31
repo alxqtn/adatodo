@@ -21,6 +21,7 @@ export default function TodoCheckbox({ id, done }: { id: number; done: boolean }
   return (
     <input
       type="checkbox"
+      data-testid="todo-checkbox"
       checked={checked}
       onChange={handleChange}
       className="peer w-4 h-4 cursor-pointer"

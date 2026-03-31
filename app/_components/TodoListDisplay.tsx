@@ -12,10 +12,11 @@ export default function TodoListDisplay({ list }: { list: TodoList }) {
         {list.todos.map((todo) => (
           <li
             key={todo.id}
+            data-testid="todo-item"
             className="group flex items-center gap-3 rounded-md px-3 py-2"
           >
             <TodoCheckbox id={todo.id} done={todo.done} />
-            <span className="peer-checked:line-through peer-checked:opacity-50 text-zinc-700 dark:text-zinc-300">
+            <span data-testid="todo-title" className="peer-checked:line-through peer-checked:opacity-50 text-zinc-700 dark:text-zinc-300">
               {todo.title}
             </span>
             <DeleteTodoButton id={todo.id} />

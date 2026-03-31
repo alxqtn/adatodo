@@ -13,6 +13,7 @@ export default function DeleteTodoButton({ id }: { id: number }) {
   return (
     <button
       onClick={handleDelete}
+      data-testid="delete-todo-button"
       className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity rounded-full w-6 h-6 flex items-center justify-center text-zinc-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950"
       aria-label="Delete todo"
     >

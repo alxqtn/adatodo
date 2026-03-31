@@ -37,6 +37,7 @@ export default function AddTodoInput({ listId }: { listId: number }) {
       <li className="flex items-center gap-2 px-1 py-1.5">
         <input
           type="text"
+          data-testid="add-todo-input"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
