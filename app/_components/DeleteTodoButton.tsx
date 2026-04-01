@@ -1,12 +1,13 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { deleteTodo } from '@/app/_actions/todos'
 
 export default function DeleteTodoButton({ id }: { id: number }) {
   const router = useRouter()
 
   async function handleDelete() {
-    await fetch(`/api/todos/${id}`, { method: 'DELETE' })
+    await deleteTodo(id)
     router.refresh()
   }
 

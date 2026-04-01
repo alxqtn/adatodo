@@ -7,6 +7,13 @@ vi.mock('next/navigation', () => ({
   useRouter: () => ({ refresh: vi.fn() }),
 }))
 
+// Mock server actions (prevent db import chain in jsdom environment)
+vi.mock('@/app/_actions/todos', () => ({
+  createTodo: vi.fn(),
+  updateTodoDone: vi.fn(),
+  deleteTodo: vi.fn(),
+}))
+
 describe('TodoListDisplay', () => {
   const todoList = {
     id: 1,

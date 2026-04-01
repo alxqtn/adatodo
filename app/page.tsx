@@ -4,8 +4,6 @@ import TodoListDisplay from '@/app/_components/TodoListDisplay'
 import { todosTable } from '@/db/schema'
 import { asc } from 'drizzle-orm'
 
-export const dynamic = 'force-dynamic'
-
 export default async function Home() {
   const lists = await db.query.listsTable.findMany({
     with: {

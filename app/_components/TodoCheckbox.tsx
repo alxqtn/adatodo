@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { updateTodoDone } from '@/app/_actions/todos'
 
 export default function TodoCheckbox({ id, done }: { id: number; done: boolean }) {
   const [checked, setChecked] = useState(done)
@@ -10,11 +11,7 @@ export default function TodoCheckbox({ id, done }: { id: number; done: boolean }
   async function handleChange() {
     const next = !checked
     setChecked(next)
-    await fetch(`/api/todos/${id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ done: next }),
-    })
+    await updateTodoDone(id, next)
     router.refresh()
   }
 
