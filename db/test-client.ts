@@ -12,6 +12,7 @@ export async function resetData() {
   // Delete in reverse order of foreign key dependencies
   await testDb.delete(schema.todosTable)
   await testDb.delete(schema.listsTable)
+  await testDb.delete(schema.user)
 }
 
 export { pool }

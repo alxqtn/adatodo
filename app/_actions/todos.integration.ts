@@ -7,7 +7,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { eq } from 'drizzle-orm'
 import { testDb, resetData } from '@/db/test-client'
-import { listsTable, todosTable } from '@/db/schema'
+import { listsTable, todosTable, user as userTable } from '@/db/schema'
 
 // Mock the db import to use testDb instead
 vi.mock('@/db/client', () => ({
@@ -15,7 +15,7 @@ vi.mock('@/db/client', () => ({
 }))
 
 // Mock auth to return a test user session
-const TEST_USER_ID = 'test-user-id'
+const TEST_USER_ID = vi.hoisted(() => 'test-user-id')
 vi.mock('@/auth', () => ({
   auth: {
     api: {
@@ -29,6 +29,11 @@ vi.mock('next/headers', () => ({
   headers: vi.fn().mockResolvedValue(new Headers()),
 }))
 
+// Mock next/cache (not available outside Next.js runtime)
+vi.mock('next/cache', () => ({
+  revalidatePath: vi.fn(),
+}))
+
 import { createTodo, updateTodoDone, deleteTodo } from './todos'
 
 describe('todos server actions', () => {
@@ -37,6 +42,15 @@ describe('todos server actions', () => {
 
   beforeEach(async () => {
     await resetData()
+
+    await testDb.insert(userTable).values({
+      id: TEST_USER_ID,
+      name: 'Test User',
+      email: 'test@example.com',
+      emailVerified: true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    })
 
     const [list] = await testDb.insert(listsTable).values({ name: 'Test List', userId: TEST_USER_ID }).returning()
     listId = list.id
@@ -72,11 +86,11 @@ describe('todos server actions', () => {
     })
 
     it('throws for empty title', async () => {
-      await expect(createTodo(listId, formData(''))).rejects.toThrow('Title is required')
+      await expect(createTodo(listId, formData(''))).rejects.toThrow('Title is required and must be a non-empty string')
     })
 
     it('throws for whitespace-only title', async () => {
-      await expect(createTodo(listId, formData('   '))).rejects.toThrow('Title is required')
+      await expect(createTodo(listId, formData('   '))).rejects.toThrow('Title is required and must be a non-empty string')
     })
 
     it('throws for non-existent list', async () => {
