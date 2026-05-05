@@ -9,7 +9,7 @@
     "lint": "eslint",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:seed": "tsx db/seed.ts",
+    "db:seed": "tsx db/seed/index.ts",
     "test:unit": "vitest run .unit.tsx .unit.ts",
     "test:integration": "DATABASE_URL='postgresql://test:test@localhost:5433/test' drizzle-kit migrate && vitest run .integration.ts",
     "test:e2e": "playwright test"

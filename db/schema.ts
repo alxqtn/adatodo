@@ -1,14 +1,17 @@
-import { integer, pgTable, varchar, boolean } from "drizzle-orm/pg-core";
+import { integer, pgTable, varchar, boolean, text } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 export * from "./auth-schema";
+import { user } from "./auth-schema";
 
 export const listsTable = pgTable("lists", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   name: varchar({ length: 255 }).notNull(),
+  userId: text('user_id').notNull().references(() => user.id),
 });
 
-export const listsRelations = relations(listsTable, ({ many }) => ({
+export const listsRelations = relations(listsTable, ({ many, one }) => ({
 	todos: many(todosTable),
+	user: one(user, { fields: [listsTable.userId], references: [user.id] }),
 }));
 
 export const todosTable = pgTable("todos", {

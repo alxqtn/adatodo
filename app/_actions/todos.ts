@@ -1,9 +1,17 @@
 'use server'
 
-import { eq } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
+import { headers } from 'next/headers'
 import { revalidatePath } from 'next/cache'
+import { auth } from '@/auth'
 import { db } from '@/db/client'
 import { listsTable, todosTable } from '@/db/schema'
+
+async function requireUserId(): Promise<string> {
+  const session = await auth.api.getSession({ headers: await headers() })
+  if (!session) throw new Error('Unauthorized')
+  return session.user.id
+}
 
 export async function createTodo(listId: number, formData: FormData) {
   const title = formData.get('title') as string
@@ -12,10 +20,12 @@ export async function createTodo(listId: number, formData: FormData) {
     throw new Error('Title is required and must be a non-empty string')
   }
 
+  const userId = await requireUserId()
+
   const [list] = await db
     .select({ id: listsTable.id })
     .from(listsTable)
-    .where(eq(listsTable.id, listId))
+    .where(and(eq(listsTable.id, listId), eq(listsTable.userId, userId)))
 
   if (!list) {
     throw new Error('List not found')
@@ -31,20 +41,36 @@ export async function createTodo(listId: number, formData: FormData) {
 }
 
 export async function updateTodoDone(id: number, done: boolean) {
+  const userId = await requireUserId()
+
+  const [row] = await db
+    .select({ todoId: todosTable.id, userId: listsTable.userId })
+    .from(todosTable)
+    .innerJoin(listsTable, eq(todosTable.listId, listsTable.id))
+    .where(eq(todosTable.id, id))
+
+  if (!row || row.userId !== userId) throw new Error('Not found')
+
   const [todo] = await db
     .update(todosTable)
     .set({ done })
     .where(eq(todosTable.id, id))
     .returning()
 
-  if (!todo) {
-    throw new Error('Not found')
-  }
-
   return todo
 }
 
 export async function deleteTodo(id: number) {
+  const userId = await requireUserId()
+
+  const [row] = await db
+    .select({ todoId: todosTable.id, userId: listsTable.userId })
+    .from(todosTable)
+    .innerJoin(listsTable, eq(todosTable.listId, listsTable.id))
+    .where(eq(todosTable.id, id))
+
+  if (!row || row.userId !== userId) throw new Error('Not found')
+
   const [todo] = await db
     .delete(todosTable)
     .where(eq(todosTable.id, id))

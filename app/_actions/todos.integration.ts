@@ -14,6 +14,21 @@ vi.mock('@/db/client', () => ({
   db: testDb,
 }))
 
+// Mock auth to return a test user session
+const TEST_USER_ID = 'test-user-id'
+vi.mock('@/auth', () => ({
+  auth: {
+    api: {
+      getSession: vi.fn().mockResolvedValue({ user: { id: TEST_USER_ID } }),
+    },
+  },
+}))
+
+// Mock next/headers (not available in test environment)
+vi.mock('next/headers', () => ({
+  headers: vi.fn().mockResolvedValue(new Headers()),
+}))
+
 import { createTodo, updateTodoDone, deleteTodo } from './todos'
 
 describe('todos server actions', () => {
@@ -23,7 +38,7 @@ describe('todos server actions', () => {
   beforeEach(async () => {
     await resetData()
 
-    const [list] = await testDb.insert(listsTable).values({ name: 'Test List' }).returning()
+    const [list] = await testDb.insert(listsTable).values({ name: 'Test List', userId: TEST_USER_ID }).returning()
     listId = list.id
 
     const [todo] = await testDb

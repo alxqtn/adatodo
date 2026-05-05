@@ -15,6 +15,13 @@
       "when": 1774284173848,
       "tag": "0001_lame_stature",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1778019883233,
+      "tag": "0002_sudden_madame_hydra",
+      "breakpoints": true
     }
   ]
 }

@@ -1,13 +1,21 @@
 import Link from 'next/link'
+import { headers } from 'next/headers'
+import { redirect } from 'next/navigation'
+import { eq, asc } from 'drizzle-orm'
+
+import { auth } from '@/auth'
 import { db } from '@/db/client'
 import TodoListDisplay from '@/app/_components/TodoListDisplay'
-import { todosTable } from '@/db/schema'
-import { asc } from 'drizzle-orm'
+import { listsTable, todosTable } from '@/db/schema'
 
 export default async function Home() {
+  const session = await auth.api.getSession({ headers: await headers() })
+  if (!session) redirect('/sign-in')
+
   const lists = await db.query.listsTable.findMany({
+    where: eq(listsTable.userId, session.user.id),
     with: {
-      todos: { orderBy: [asc(todosTable.id)] },
+      todos: { orderBy: (t, { asc }) => [asc(t.id)] },
     },
   })
 

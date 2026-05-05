@@ -18,6 +18,7 @@ describe('TodoListDisplay', () => {
   const todoList = {
     id: 1,
     name: 'Test List',
+    userId: 'user-1',
     todos: [
       { id: 1, title: 'Buy milk', done: false, listId: 1 },
       { id: 2, title: 'Walk the dog', done: true, listId: 1 },
@@ -54,7 +55,7 @@ describe('TodoListDisplay', () => {
   })
 
   it('renders empty list correctly', () => {
-    const emptyList = { id: 2, name: 'Empty List', todos: [] }
+    const emptyList = { id: 2, name: 'Empty List', userId: 'user-1', todos: [] }
     render(<TodoListDisplay list={emptyList} />)
 
     expect(screen.getByPlaceholderText('Add a task...')).toBeInTheDocument()
